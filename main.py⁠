@@ -33,10 +33,12 @@ async def auto_apply_spoiler(client: Client, message: Message):
             )
             await message.delete()
 
-async def main():
-    async with app:
-        print("Bot started successfully!")
-        await asyncio.Event().wait()
+async def start_bot():
+    await app.start()
+    print("Bot started successfully!")
+    await asyncio.Event().wait()
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(start_bot())
