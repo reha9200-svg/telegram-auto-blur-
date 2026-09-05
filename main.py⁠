@@ -1,6 +1,6 @@
 import os
 import asyncio
-from pyrogram import Client, filters
+from pyrogram import Client, filters, idle
 from pyrogram.types import Message
 
 API_ID = int(os.environ.get("API_ID"))
@@ -33,12 +33,13 @@ async def auto_apply_spoiler(client: Client, message: Message):
             )
             await message.delete()
 
-async def start_bot():
+async def main():
     await app.start()
     print("Bot started successfully!")
-    await asyncio.Event().wait()
+    await idle()
+    await app.stop()
 
 if __name__ == "__main__":
-    loop = asyncio.new_event_loop()
+    loop = asyncio.get_event_loop() if asyncio.get_event_loop().is_running() else asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
-    loop.run_until_complete(start_bot())
+    loop.run_until_complete(main())
