@@ -1,4 +1,5 @@
 import os
+import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
@@ -13,7 +14,7 @@ async def auto_apply_spoiler(client: Client, message: Message):
     if not message.has_media_spoiler:
         chat_id = message.chat.id
         caption = message.caption or ""
-        
+
         if message.photo:
             await client.send_photo(
                 chat_id=chat_id,
@@ -22,7 +23,7 @@ async def auto_apply_spoiler(client: Client, message: Message):
                 has_spoiler=True
             )
             await message.delete()
-            
+
         elif message.video:
             await client.send_video(
                 chat_id=chat_id,
@@ -32,4 +33,8 @@ async def auto_apply_spoiler(client: Client, message: Message):
             )
             await message.delete()
 
-app.run()
+if __name__ == "__main__":
+    loop = asyncio.get_event_loop_policy().get_event_loop()
+    loop.run_until_complete(app.start())
+    print("Bot started successfully!")
+    asyncio.get_event_loop().run_forever()
