@@ -1,4 +1,5 @@
 import os
+import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message
 
@@ -32,5 +33,14 @@ async def auto_apply_spoiler(client: Client, message: Message):
             )
             await message.delete()
 
+async def main():
+    await app.start()
+    print("Bot started successfully!")
+    await asyncio.gather()
+
 if __name__ == "__main__":
-    app.run()
+    loop = asyncio.get_event_loop_policy().get_event_loop()
+    try:
+        loop.run_until_complete(main())
+    except KeyboardInterrupt:
+        pass
